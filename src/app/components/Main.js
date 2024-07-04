@@ -3,23 +3,35 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Loading from "./Loading";
+import ErrorGetData from "./ErrorGetData";
 
 export default function Main(){
     const [listaCamisas, setListaCamisas] = useState([])
     const [listaCompleta, setListaCompleta] = useState([])
+    const [errorFetch, setErrorFetch] = useState(true)
  
     useEffect(() => {
         const getProduct = async () => {
-            const response = await fetch("http://localhost:3000/api")
-            const data = await response.json()
+            try{
 
-            setListaCamisas(data)
-            setListaCompleta(data)
+            
+                const response = await fetch("http://localhost:3000/api")
+                const data = await response.json()
+
+                setListaCamisas(data)
+                setListaCompleta(data)
+            }catch{
+                setErrorFetch(false)
+            }
         }
 
         getProduct()
 
     }, [])
+
+    if(errorFetch == false){
+        return <ErrorGetData/>
+      }
 
     if(listaCompleta[0] == null){
         return(
