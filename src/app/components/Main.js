@@ -50,7 +50,7 @@ export default function Main(){
                         <p>{camisa.descricao}</p>
                         <p>{camisa.situacao}</p>
                         <p>{camisa.preco}</p>
-                        <button><Link href={`product/${camisa.id}`}>Ver produto</Link></button>
+                        <button><Link href={`product/${camisa.id}`}>Ver camisa</Link></button>
                     </div>
                 ))}
             </main>
