@@ -2,21 +2,32 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Loading from "./Loading";
 
 export default function Main(){
     const [listaCamisas, setListaCamisas] = useState([])
-
+    const [listaCompleta, setListaCompleta] = useState([])
+ 
     useEffect(() => {
         const getProduct = async () => {
             const response = await fetch("http://localhost:3000/api")
             const data = await response.json()
 
             setListaCamisas(data)
+            setListaCompleta(data)
         }
 
         getProduct()
 
     }, [])
+
+    if(listaCompleta[0] == null){
+        return(
+            <main>
+                <Loading />
+            </main>
+        )
+    }
 
     return(
             <main>
