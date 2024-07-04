@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Main(){
     const [listaCamisas, setListaCamisas] = useState([])
@@ -26,6 +27,7 @@ export default function Main(){
                         <p>{camisa.descricao}</p>
                         <p>{camisa.situacao}</p>
                         <p>{camisa.preco}</p>
+                        <button><Link href={`product/${camisa.id}`}>Ver produto</Link></button>
                     </div>
                 ))}
             </main>
