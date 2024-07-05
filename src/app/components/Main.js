@@ -42,7 +42,19 @@ export default function Main(){
         )
     }
     
+    const pesquisarTexto = (texto) => {
+        setPesquisa(texto);
     
+        if (texto.trim() == "") {
+          setListaCamisas(listaCompleta);
+          return;
+        }
+    
+        const novaLista = listaCamisas.filter((camisa) =>
+          camisa.nome.toUpperCase().trim().includes(pesquisa.toUpperCase().trim())
+        );
+        setListaCamisas(novaLista);
+      };
 
     const orderAZ = () => {
         const novaLista = [...listaCamisas].sort((a,b)=>
@@ -69,24 +81,49 @@ export default function Main(){
         setListaCamisas(novaLista);
       };
 
+      const filtrarCorBranca = () => {
+        const novaLista = listaCompleta.filter((camisa) => camisa.cor === "Branca");
+        setListaCamisas(novaLista);
+    };
+
+    const filtrarCorPreta = () => {
+        const novaLista = listaCompleta.filter((camisa) => camisa.cor === "Preta");
+        setListaCamisas(novaLista);
+    };
+
+    
+
     return(
             <main>
                 <div>
-                    {listaCamisas.map((camisa) => (
-                        <div key={camisa.id}>
-                            {<Image src={camisa.imagem} width={100} height={100} alt='Imagem de produto' />}
-                            <h1>{camisa.nome}</h1>
-                            <p>{camisa.descricao}</p>
-                            <p>{camisa.situacao}</p>
-                            <p>{camisa.preco}</p>
-                            <Link href={`product/${camisa.id}`}><button>Ver camisa</button></Link>
-                           
-                        </div>
-                    ))}
+                    <input
+                        type="text"
+                        value={pesquisa}
+                        placeholder="Pesquise Produto"
+                        onChange={(event) => pesquisarTexto(event.target.value)}
+                    />
+               
+                     <div>
+                        {listaCamisas.map((camisa) => (
+                            <div key={camisa.id}>
+                                {<Image src={camisa.imagem} width={200} height={250} alt='Imagem de produto' />}
+                                <h1>{camisa.nome}</h1>
+                                <p>{camisa.descricao}</p>
+                                <p>{camisa.situacao}</p>
+                                <p>{camisa.preco}</p>
+                                <Link href={`product/${camisa.id}`}><button>Ver camisa</button></Link>
+                            
+                            </div>
+                        ))}
+                        
+                     </div>
+
                      <button onClick={orderAZ}>A-Z</button>
                      <button onClick={orderZA}>A-Z</button>
                      <button onClick={precoMaior}>Preço Maior</button>
                      <button onClick={precoMenor}>Preço Menor</button>
+                     <button onClick={filtrarCorBranca}>Camisas Brancas</button>
+                     <button onClick={filtrarCorPreta}>Camisas Pretas</button>
                 </div>
             </main>
 
