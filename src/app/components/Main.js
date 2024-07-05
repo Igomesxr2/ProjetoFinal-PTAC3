@@ -41,18 +41,38 @@ export default function Main(){
         )
     }
 
+    const orderAZ = () => {
+        const novaLista = [...listaCamisas].sort((a,b)=>
+            a.nome.localeCompare(b.nome)
+        ) 
+        setListaCamisas(novaLista)
+    }
+
+    const orderZA = () => {
+        const novaLista = [...listaCamisas].sort((a,b)=>
+            b.nome.localeCompare(a.nome)
+        ) 
+        setListaCamisas(novaLista)
+    }
+    
+
     return(
             <main>
-                 {listaCamisas.map((camisa) => (
-                    <div key={camisa.id}>
-                        {<Image src={camisa.imagem} width={100} height={100} alt='Imagem de produto' />}
-                        <h1>{camisa.nome}</h1>
-                        <p>{camisa.descricao}</p>
-                        <p>{camisa.situacao}</p>
-                        <p>{camisa.preco}</p>
-                        <button><Link href={`product/${camisa.id}`}>Ver camisa</Link></button>
-                    </div>
-                ))}
+                <div>
+                    {listaCamisas.map((camisa) => (
+                        <div key={camisa.id}>
+                            {<Image src={camisa.imagem} width={100} height={100} alt='Imagem de produto' />}
+                            <h1>{camisa.nome}</h1>
+                            <p>{camisa.descricao}</p>
+                            <p>{camisa.situacao}</p>
+                            <p>{camisa.preco}</p>
+                            <Link href={`product/${camisa.id}`}><button>Ver camisa</button></Link>
+                           
+                        </div>
+                    ))}
+                     <button onClick={orderAZ}>A-Z</button>
+                     <button onClick={orderZA}>A-Z</button>
+                </div>
             </main>
 
     )
