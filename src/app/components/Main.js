@@ -9,6 +9,7 @@ export default function Main(){
     const [listaCamisas, setListaCamisas] = useState([])
     const [listaCompleta, setListaCompleta] = useState([])
     const [errorFetch, setErrorFetch] = useState(true)
+    const [pesquisa, setPesquisa] = useState("")
  
     useEffect(() => {
         const getProduct = async () => {
@@ -40,6 +41,8 @@ export default function Main(){
             </main>
         )
     }
+    
+    
 
     const orderAZ = () => {
         const novaLista = [...listaCamisas].sort((a,b)=>
@@ -55,6 +58,16 @@ export default function Main(){
         setListaCamisas(novaLista)
     }
     
+    const precoMaior = () => {
+        let novaLista = [...listaCamisas].sort((a, b) => a.preco - b.preco);
+        novaLista = novaLista.reverse();
+        setListaCamisas(novaLista);
+      };
+
+      const precoMenor = () => {
+        let novaLista = [...listaCamisas].sort((a, b) => a.preco - b.preco);
+        setListaCamisas(novaLista);
+      };
 
     return(
             <main>
@@ -72,6 +85,8 @@ export default function Main(){
                     ))}
                      <button onClick={orderAZ}>A-Z</button>
                      <button onClick={orderZA}>A-Z</button>
+                     <button onClick={precoMaior}>Preço Maior</button>
+                     <button onClick={precoMenor}>Preço Menor</button>
                 </div>
             </main>
 
