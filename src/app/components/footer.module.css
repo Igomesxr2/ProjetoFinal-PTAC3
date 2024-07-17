@@ -1,0 +1,21 @@
+/* header.module.css */
+.body {
+    margin: 0;
+    padding: 0;
+}
+
+.footerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgb(240, 240, 240);
+    box-sizing: border-box;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}

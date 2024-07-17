@@ -4,84 +4,82 @@ import Image from "next/image";
 import Link from "next/link";
 import Loading from "./Loading";
 import ErrorGetData from "./ErrorGetData";
+import styles from './main.module.css';
 
-export default function Main(){
-    const [listaCamisas, setListaCamisas] = useState([])
-    const [listaCompleta, setListaCompleta] = useState([])
-    const [errorFetch, setErrorFetch] = useState(true)
-    const [pesquisa, setPesquisa] = useState("")
- 
+export default function Main() {
+    const [listaCamisas, setListaCamisas] = useState([]);
+    const [listaCompleta, setListaCompleta] = useState([]);
+    const [errorFetch, setErrorFetch] = useState(true);
+    const [pesquisa, setPesquisa] = useState("");
+
     useEffect(() => {
         const getProduct = async () => {
-            try{
+            try {
+                const response = await fetch("http://localhost:3000/api");
+                const data = await response.json();
 
-            
-                const response = await fetch("http://localhost:3000/api")
-                const data = await response.json()
-
-                setListaCamisas(data)
-                setListaCompleta(data)
-            }catch{
-                setErrorFetch(false)
+                setListaCamisas(data);
+                setListaCompleta(data);
+            } catch {
+                setErrorFetch(false);
             }
-        }
+        };
 
-        getProduct()
+        getProduct();
+    }, []);
 
-    }, [])
+    if (errorFetch == false) {
+        return <ErrorGetData />;
+    }
 
-    if(errorFetch == false){
-        return <ErrorGetData/>
-      }
-
-    if(listaCompleta[0] == null){
-        return(
+    if (listaCompleta[0] == null) {
+        return (
             <main>
                 <Loading />
             </main>
-        )
+        );
     }
-    
+
     const pesquisarTexto = (texto) => {
         setPesquisa(texto);
-    
-        if (texto.trim() == "") {
-          setListaCamisas(listaCompleta);
-          return;
+
+        if (texto.trim() === "") {
+            setListaCamisas(listaCompleta);
+            return;
         }
-    
+
         const novaLista = listaCamisas.filter((camisa) =>
-          camisa.nome.toUpperCase().trim().includes(pesquisa.toUpperCase().trim())
+            camisa.nome.toUpperCase().trim().includes(pesquisa.toUpperCase().trim())
         );
         setListaCamisas(novaLista);
-      };
+    };
 
     const orderAZ = () => {
-        const novaLista = [...listaCamisas].sort((a,b)=>
+        const novaLista = [...listaCamisas].sort((a, b) =>
             a.nome.localeCompare(b.nome)
-        ) 
-        setListaCamisas(novaLista)
-    }
+        );
+        setListaCamisas(novaLista);
+    };
 
     const orderZA = () => {
-        const novaLista = [...listaCamisas].sort((a,b)=>
+        const novaLista = [...listaCamisas].sort((a, b) =>
             b.nome.localeCompare(a.nome)
-        ) 
-        setListaCamisas(novaLista)
-    }
-    
+        );
+        setListaCamisas(novaLista);
+    };
+
     const precoMaior = () => {
         let novaLista = [...listaCamisas].sort((a, b) => a.preco - b.preco);
         novaLista = novaLista.reverse();
         setListaCamisas(novaLista);
-      };
+    };
 
-      const precoMenor = () => {
+    const precoMenor = () => {
         let novaLista = [...listaCamisas].sort((a, b) => a.preco - b.preco);
         setListaCamisas(novaLista);
-      };
+    };
 
-      const filtrarCorBranca = () => {
+    const filtrarCorBranca = () => {
         const novaLista = listaCompleta.filter((camisa) => camisa.cor === "Branca");
         setListaCamisas(novaLista);
     };
@@ -91,41 +89,40 @@ export default function Main(){
         setListaCamisas(novaLista);
     };
 
-    
-
-    return(
-            <main>
-                <div>
-                    <input
-                        type="text"
-                        value={pesquisa}
-                        placeholder="Pesquise Produto"
-                        onChange={(event) => pesquisarTexto(event.target.value)}
-                    />
-               
-                     <div>
-                        {listaCamisas.map((camisa) => (
-                            <div key={camisa.id}>
-                                {<Image src={camisa.imagem} width={200} height={250} alt='Imagem de produto' />}
-                                <h1>{camisa.nome}</h1>
-                                <p>{camisa.descricao}</p>
-                                <p>{camisa.situacao}</p>
-                                <p>{camisa.preco}</p>
-                                <Link href={`product/${camisa.id}`}><button>Ver camisa</button></Link>
-                            
-                            </div>
-                        ))}
-                        
-                     </div>
-
-                     <button onClick={orderAZ}>A-Z</button>
-                     <button onClick={orderZA}>A-Z</button>
-                     <button onClick={precoMaior}>Preço Maior</button>
-                     <button onClick={precoMenor}>Preço Menor</button>
-                     <button onClick={filtrarCorBranca}>Camisas Brancas</button>
-                     <button onClick={filtrarCorPreta}>Camisas Pretas</button>
+    return (
+        <main className={styles.container}>
+            <input
+                type="text"
+                value={pesquisa}
+                placeholder="Pesquise Produto"
+                onChange={(event) => pesquisarTexto(event.target.value)}
+                className={styles.inputField}
+            />
+            <div>
+                <button onClick={orderAZ} className={styles.button}>A-Z</button>
+                <button onClick={orderZA} className={styles.button}>Z-A</button>
+                <button onClick={precoMaior} className={styles.button}>Preço Maior</button>
+                <button onClick={precoMenor} className={styles.button}>Preço Menor</button>
+                <button onClick={filtrarCorBranca} className={styles.button}>Camisas Brancas</button>
+                <button onClick={filtrarCorPreta} className={styles.button}>Camisas Pretas</button>
+            </div>
+            
+            <div className={styles.containerProdutos}>
+                <div className={styles.productList}>
+                    {listaCamisas.map((camisa) => (
+                        <div key={camisa.id} className={styles.productItem}>
+                            <Image src={camisa.imagem} width={200} height={250} alt='Imagem de produto' className={styles.productImage} />
+                            <h1 className={styles.productTitle}>{camisa.nome}</h1>
+                            <p className={styles.productDescription}>{camisa.descricao}</p>
+                            <p>{camisa.situacao}</p>
+                            <p className={styles.productPrice}>{camisa.preco}</p>
+                            <Link href={`product/${camisa.id}`}>
+                                <button className={styles.linkButton}>Ver camisa</button>
+                            </Link>
+                        </div>
+                    ))}
                 </div>
-            </main>
-
-    )
+            </div>
+        </main>
+    );
 }
