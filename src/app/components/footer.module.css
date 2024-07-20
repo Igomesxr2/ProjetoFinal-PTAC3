@@ -1,9 +1,3 @@
-/* header.module.css */
-.body {
-    margin: 0;
-    padding: 0;
-}
-
 .footerContainer {
     display: flex;
     align-items: center;

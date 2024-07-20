@@ -34,9 +34,9 @@ export default function Main() {
 
     if (listaCompleta[0] == null) {
         return (
-            <main>
+            <div className={styles.loadingContainer}>
                 <Loading />
-            </main>
+            </div>
         );
     }
 
@@ -98,29 +98,40 @@ export default function Main() {
                 onChange={(event) => pesquisarTexto(event.target.value)}
                 className={styles.inputField}
             />
-            <div>
-                <button onClick={orderAZ} className={styles.button}>A-Z</button>
-                <button onClick={orderZA} className={styles.button}>Z-A</button>
-                <button onClick={precoMaior} className={styles.button}>Preço Maior</button>
-                <button onClick={precoMenor} className={styles.button}>Preço Menor</button>
-                <button onClick={filtrarCorBranca} className={styles.button}>Camisas Brancas</button>
-                <button onClick={filtrarCorPreta} className={styles.button}>Camisas Pretas</button>
-            </div>
-            
-            <div className={styles.containerProdutos}>
-                <div className={styles.productList}>
-                    {listaCamisas.map((camisa) => (
-                        <div key={camisa.id} className={styles.productItem}>
-                            <Image src={camisa.imagem} width={200} height={250} alt='Imagem de produto' className={styles.productImage} />
-                            <h1 className={styles.productTitle}>{camisa.nome}</h1>
-                            <p className={styles.productDescription}>{camisa.descricao}</p>
-                            <p>{camisa.situacao}</p>
-                            <p className={styles.productPrice}>{camisa.preco}</p>
-                            <Link href={`product/${camisa.id}`}>
-                                <button className={styles.linkButton}>Ver camisa</button>
-                            </Link>
-                        </div>
-                    ))}
+
+            <div className={styles.mainContent}>
+                <div className={styles.filterContainer}>
+                    
+                    <h2>Filtros</h2>
+
+                    <p>Ordem Alfabética:</p>
+                    <button onClick={orderAZ} className={styles.button}>A-Z</button>
+                    <button onClick={orderZA} className={styles.button}>Z-A</button>
+                    
+                    <p>Preço:</p>
+                    <button onClick={precoMaior} className={styles.button}>Maior</button>
+                    <button onClick={precoMenor} className={styles.button}>Menor</button>
+
+                    <p>Cor:</p>
+                    <button onClick={filtrarCorBranca} className={styles.button}>Branco</button>
+                    <button onClick={filtrarCorPreta} className={styles.button}>Preto</button>
+                </div>
+
+                <div className={styles.containerProdutos}>
+                    <div className={styles.productList}>
+                        {listaCamisas.map((camisa) => (
+                            <div key={camisa.id} className={styles.productItem}>
+                                <Image src={camisa.imagem} width={200} height={250} alt='Imagem de produto' className={styles.productImage} />
+                                <h1 className={styles.productTitle}>{camisa.nome}</h1>
+                                <p className={styles.productDescription}>{camisa.descricao}</p>
+                                <p>{camisa.situacao}</p>
+                                <p className={styles.productPrice}>{camisa.preco}</p>
+                                <Link href={`product/${camisa.id}`}>
+                                    <button className={styles.linkButton}>Ver camisa</button>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </main>

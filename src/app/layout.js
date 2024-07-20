@@ -1,3 +1,4 @@
+import styles from "./components/header.module.css"
 
 export const metadata = {
   title: "Create Next App",
@@ -7,7 +8,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
-      <body>
+      <body className={styles.body}>
           {children}
       </body>
     </html>
